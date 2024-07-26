@@ -1,0 +1,14 @@
+#movie-poster {
+    max-width: 300px;
+    height: auto;
+    margin: 20px 0;
+}
+
+main {
+    text-align: center;
+}
+
+#movie-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Review</title>
+    <link rel="stylesheet" href="movie.css">
+</head>
+<body>
+    <header>
+        <h1>Movie Review</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="movies.html">Movies</a></li>
+                <li><a href="tvshows.html">TV Shows</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2 id="movie-title"></h2>
+        <img id="movie-poster" src="" alt="Movie Poster">
+        <p id="movie-year"></p>
+        <p id="movie-genre"></p>
+        <p id="movie-director"></p>
+        <p id="movie-actors"></p>
+        <p id="movie-plot"></p>
+        <p id="movie-imdb-rating"></p>
+    </main>
+    <footer>
+        <p>&copy; 2024 Movie and TV Show Reviews</p>
+    </footer>
+    <script>
+        const API_KEY = '4105a19d';
+        const API_URL = 'https://www.omdbapi.com/';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const movieId = urlParams.get('id');
+            fetchMovieDetails(movieId);
+
+            function fetchMovieDetails(id) {
+                fetch(`${API_URL}?i=${id}&apikey=${API_KEY}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('movie-title').innerText = data.Title;
+                        document.getElementById('movie-poster').src = data.Poster !== "N/A" ? data.Poster : 'no-image-available.png';
+                        document.getElementById('movie-year').innerText = `Year: ${data.Year}`;
+                        document.getElementById('movie-genre').innerText = `Genre: ${data.Genre}`;
+                        document.getElementById('movie-director').innerText = `Director: ${data.Director}`;
+                        document.getElementById('movie-actors').innerText = `Actors: ${data.Actors}`;
+                        document.getElementById('movie-plot').innerText = `Plot: ${data.Plot}`;
+                        document.getElementById('movie-imdb-rating').innerText = `IMDb Rating: ${data.imdbRating}`;
+                    })
+                    .catch(error => console.error('Error fetching movie details:', error));
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Show Review</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>TV Show Review</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="movies.html">Movies</a></li>
+                <li><a href="tvshows.html">TV Shows</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2 id="tvshow-title"></h2>
+        <img id="tvshow-poster" src="" alt="TV Show Poster">
+        <p id="tvshow-year"></p>
+        <p id="tvshow-genre"></p>
+        <p id="tvshow-director"></p>
+        <p id="tvshow-actors"></p>
+        <p id="tvshow-plot"></p>
+        <p id="tvshow-imdb-rating"></p>
+    </main>
+    <footer>
+        <p>&copy; 2024 Movie and TV Show Reviews</p>
+    </footer>
+    <script>
+        const API_KEY = '4105a19d';
+        const API_URL = 'https://www.omdbapi.com/';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tvshowId = urlParams.get('id');
+            fetchTVShowDetails(tvshowId);
+
+            function fetchTVShowDetails(id) {
+                fetch(`${API_URL}?i=${id}&apikey=${API_KEY}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('tvshow-title').innerText = data.Title;
+                        document.getElementById('tvshow-poster').src = data.Poster !== "N/A" ? data.Poster : 'no-image-available.png';
+                        document.getElementById('tvshow-year').innerText = `Year: ${data.Year}`;
+                        document.getElementById('tvshow-genre').innerText = `Genre: ${data.Genre}`;
+                        document.getElementById('tvshow-director').innerText = `Director: ${data.Director}`;
+                        document.getElementById('tvshow-actors').innerText = `Actors: ${data.Actors}`;
+                        document.getElementById('tvshow-plot').innerText = `Plot: ${data.Plot}`;
+                        document.getElementById('tvshow-imdb-rating').innerText = `IMDb Rating: ${data.imdbRating}`;
+                    })
+                    .catch(error => console.error('Error fetching TV show details:', error));
+            }
+        });
+    </script>
+</body>
+</html>
